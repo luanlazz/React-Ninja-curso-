@@ -6,7 +6,7 @@ import { AppContainer } from 'react-hot-loader'
 
 import App from './app'
 
-const renderApp = (NextApp = App) => {
+const renderApp = (NextApp) => {
   render(
     <AppContainer>
       <NextApp />
@@ -15,7 +15,7 @@ const renderApp = (NextApp = App) => {
   )
 }
 
-renderApp()
+renderApp(App)
 
 if (module.hot) {
   module.hot.accept('./app', () => { 
