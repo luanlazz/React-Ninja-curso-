@@ -4,15 +4,15 @@ import React, { PropTypes } from 'react'
 
 const UserInfo = ({ userinfo }) => (
   <div className='user-info'>
-    <img src={userinfo.photo} />
+    <img className='photo' src={userinfo.photo} />
 
-    <h1>
+    <h1 className='info'>
       <a href={`https://github.com/${userinfo.login}`}>
         {userinfo.username}
       </a>
     </h1>
 
-    <ul className='repos-info'>
+    <ul className='info'>
       <li>Repositórios: {userinfo.repos}</li>
       <li>Seguidores: {userinfo.followers}</li>
       <li>Seguindo: {userinfo.following}</li>

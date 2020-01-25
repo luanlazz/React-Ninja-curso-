@@ -12,16 +12,26 @@ class App extends Component {
       userinfo: null,
       repos: [],
       starred: [],
+      isFetching: false,
     }
+
+    this.handleSearch = this.handleSearch.bind(this)
   }
 
-  handleSearch(e) {
+  getGitHubApiUrl (username, type) {
+    const internalUser = username ? `${username}` : ''
+    const internalType = type ? `/${type}` : ''
+    return `https://api.github.com/users/${internalUser}${internalType}`
+  }
+
+  handleSearch (e) {
     const value = e.target.value
     const keyCode = e.which || e.keyCode
     const ENTER = 13
 
-    if (keyCode == ENTER) {
-      ajax().get(`https://api.github.com/users/${value}`).then((result) => {
+    if (keyCode === ENTER) {
+      this.setState({ isFetching: true })
+      ajax().get(this.getGitHubApiUrl(value)).then((result) => {
         this.setState({
           userinfo: {
             username: result.name,
@@ -30,19 +40,35 @@ class App extends Component {
             repos: result.public_repos,
             following: result.following,
             followers: result.followers
+          },
+          repos: [],
+          starred: []
+        })
+      })
+        .always(() => this.setState({ isFetching: false }))
+    }
+  }
+
+  getRepos (type) {
+    return (e) => {
+      ajax().get(this.getGitHubApiUrl(this.state.userinfo.login, type)).then((repos) => {
+        this.setState({
+          [type]: repos.map((repo) => ({
+            name: repo.name,
+            link: repo.html_url
           }
+          ))
         })
       })
     }
-    console.log(keyCode)
   }
 
   render () {
     return <AppContent
-      userinfo={this.state.userinfo}
-      repos={this.state.repos}
-      starred={this.state.starred}
-      handleSearch={(e) => this.handleSearch(e)}
+      {...this.state}
+      handleSearch={this.handleSearch}
+      getRepos={this.getRepos('repos')}
+      getStarred={this.getRepos('starred')}
     />
   }
 }

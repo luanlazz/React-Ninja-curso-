@@ -1,12 +1,17 @@
 'use strict'
 
-import React from 'react'
+import React, { PropTypes } from 'react'
 
-const Actions = () => (
+const Actions = ({ getRepos, getStarred }) => (
   <div className='action'>
-    <button>Repositories</button>
-    <button>Favorites</button>
+    <button onClick={getRepos}>Repositories</button>
+    <button onClick={getStarred}>Favorites</button>
   </div>
 )
+
+Actions.propTypes = {
+  getRepos: PropTypes.func.isRequired,
+  getStarred: PropTypes.func.isRequired
+}
 
 export default Actions

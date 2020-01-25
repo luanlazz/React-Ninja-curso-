@@ -2,18 +2,20 @@
 
 import React, { PropTypes } from 'react'
 
-const Search = ({ handleSearch }) => (
+const Search = ({ isDisabled, handleSearch }) => (
   <div className='search'>
     <input 
       type='serach' 
       placeholder='Enter the name of user'
+      disabled={isDisabled}
       onKeyUp={handleSearch}
     />
   </div>
 )
 
 Search.propTypes = {
-  handleSearch: React.PropTypes.func.isRequired
+  isDisabled: PropTypes.bool.isRequired,
+  handleSearch: PropTypes.func.isRequired
 }
 
 export default Search
