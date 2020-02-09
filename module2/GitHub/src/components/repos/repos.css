@@ -1,0 +1,23 @@
+.repos {
+    grid-area: repos;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.repos h2, ul > li > a {
+    text-decoration: none;
+    color: darkblue;
+}
+
+.starred {
+    grid-area: starred;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.starred h2, ul > li > a {
+    text-decoration: none;
+    color: darkblue;
+}

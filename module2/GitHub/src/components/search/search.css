@@ -1,0 +1,11 @@
+.search {
+    grid-area: search;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search input {
+    font-size: 30px;
+    width: 100%;
+}

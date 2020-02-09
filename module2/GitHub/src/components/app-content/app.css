@@ -1,0 +1,20 @@
+* {
+    font-family: sans-serif, Arial, Helvetica;
+}
+
+.app {
+  display: grid;
+  grid-template-rows: 80px 1fr 100px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 
+        "search search"
+        "user-info user-info"
+        "actions actions"
+        "repos starred";
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

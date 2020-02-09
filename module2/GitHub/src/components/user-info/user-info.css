@@ -1,0 +1,35 @@
+.user-info {
+    grid-area: user-info;
+    display: grid;
+    grid-template-rows: 100px 200px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "photo name"
+        "photo info";
+
+}
+
+.user-info .photo {
+    grid-area: photo;
+    display: flex;
+    align-self: center;
+    justify-self: center;
+
+    height: 300px;
+    border-radius: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.user-info h1 > a {
+    grid-area: name;
+    text-decoration: none;
+    font-size: 2.5rem;
+    color: gray;
+}
+
+.user-info ul {
+    grid-area: info;
+    list-style: none;
+    color: darkblue;
+    font-size: 1.5rem;
+}
