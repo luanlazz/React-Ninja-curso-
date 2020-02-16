@@ -1,8 +1,16 @@
-.action {
+.actions {
     grid-area: actions;
     display: flex;
     align-items: center;
     margin-left: 20%;
     margin-right: 20%;
     justify-content: space-between;
+}
+
+.actions button {
+    font-size: 20px;
+    color: #fff;
+    background-color: gray;
+    border-radius: 15px;
+    border-style: none;
 }

@@ -5,8 +5,8 @@ import './search.css'
 
 const Search = ({ isDisabled, handleSearch }) => (
   <div className='search'>
-    <input 
-      type='serach' 
+    <input
+      type='serach'
       placeholder='Enter the name of user'
       disabled={isDisabled}
       onKeyUp={handleSearch}

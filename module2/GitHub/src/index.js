@@ -4,9 +4,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
-import App from './app'
-
-import './css/style.css'
+import App from 'src/app'
 
 const renderApp = (NextApp) => {
   render(
@@ -20,7 +18,7 @@ const renderApp = (NextApp) => {
 renderApp(App)
 
 if (module.hot) {
-  module.hot.accept('./app', () => { 
+  module.hot.accept('./app', () => {
     const NextApp = require('./app').default
     renderApp(NextApp)
   })
