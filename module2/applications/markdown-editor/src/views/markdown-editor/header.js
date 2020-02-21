@@ -1,11 +1,13 @@
 'use strict'
 
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Button from 'components/button'
 import SaveMessage from 'components/save-message'
 
-const MarkdownEditorHeader = ({ isSaving, handleCreate, handleRemove }) => (
+const MarkdownEditorHeader = ({ title, isSaving, handleCreate, handleRemove, handleChange }) => (
   <header className='editor-header'>
+    <input type='text' value={title} onChange={handleChange('title')} placeholder='Sem titulo' />
     <SaveMessage isSaving={isSaving} />
 
     <Button onClick={handleCreate} kind='success'>
@@ -18,9 +20,10 @@ const MarkdownEditorHeader = ({ isSaving, handleCreate, handleRemove }) => (
   </header >
 )
 
-// MarkdownEditorHeader.propTypes = {
-//   handleCreate: PropTypes.func.isRequired,
-//   handleRemove: PropTypes.func.isRequired
-// }
+MarkdownEditorHeader.propTypes = {
+  title: PropTypes.string.isRequired,
+  handleCreate: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired
+}
 
 export default MarkdownEditorHeader

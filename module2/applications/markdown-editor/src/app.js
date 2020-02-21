@@ -23,71 +23,103 @@ class App extends Component {
     super()
 
     this.clearState = () => ({
+      title: '',
       value: '',
       id: v4(),
     })
-
+    
     this.state = { 
       ...this.clearState(),
-      isSaving: null
+      isSaving: null,
+      files: {}
     }
-
-    this.handleChange = (e) => {
+    
+    this.handleChange = (field) => (e) => {
       this.setState({
-        value: e.target.value,
+        [field]: e.target.value,
         isSaving: true
       })
     }
-
+    
     this.getMarkup = () => {
       return { __html: marked(this.state.value) }
     }
-
+    
     this.handleSave = () => {
       if (this.state.isSaving) {
-        localStorage.setItem(this.state.id, this.state.value)
-        this.setState({ isSaving: false })
+        const files = {
+          ...this.state.files,
+          [this.state.id]: {
+            title: this.state.title || 'Sem título',
+            content: this.state.value
+          }
+        }
+
+        localStorage.setItem('markdown-editor', JSON.stringify(files))
+
+        this.setState({
+          isSaving: false,
+          files
+        })
       }
     }
-
+    
     this.createNew = () => {
       this.setState(this.clearState())
       this.textarea.focus()
     }
-
+    
     this.handleCreate = () => {
       this.createNew()
     }
-
+    
     this.handleRemove = () => {
-      localStorage.removeItem(this.state.id)
+      const{ [this.state.id]: id, ...files } = this.state.files
+      localStorage.setItem('markdown-editor', JSON.stringify(files))
+      this.setState({ files })
       this.createNew()
     }
-
+    
     this.textareaRef = (node) => {
       this.textarea = node
     }
+    
+    this.handleOpenFile = (fileId) => () => {
+      this.setState({
+        title: this.state.files[fileId].title,
+        value: this.state.files[fileId].content,
+        id: fileId
+      })
+    }
   }
-
+  
+  componentDidMount () {
+    const files = JSON.parse(localStorage.getItem('markdown-editor'))
+    this.setState({ files })
+  }
+  
   componentDidUpdate () {
     clearInterval(this.timer)
     this.timer = setTimeout(this.handleSave, 1000)
   }
-
+  
   componentWillUnmount () {
     clearInterval(this.timer)
   }
-
+  
   render () {
     return (
       <MarkdownEditor 
         value={this.state.value} 
         isSaving={this.state.isSaving}
-        handleChange={this.handleChange} 
+        handleChange={this.handleChange}
         getMarkup={this.getMarkup}
         handleCreate={this.handleCreate}
         handleRemove={this.handleRemove}
         textareaRef={this.textareaRef}
+        files={this.state.files}
+        handleOpenFile={this.handleOpenFile}
+        title={this.state.title}
       />
     )
   }
