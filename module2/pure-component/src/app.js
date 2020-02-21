@@ -1,39 +1,47 @@
 'use strict'
 
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 
 import './css/style.css'
 
-class App extends PureComponent {
+class App extends Component {
   constructor () {
     super()
-    this.state = {
-      title: '...',
-      Component: 'div'
+    this.state = { 
+      color: { 
+        otherColor: 'purple',
+        moreOtherColor: 'white'
+      } 
+    }
+
+    this.handleClick = () => {
+      this.setState({ 
+        color: {
+          ...this.state.color,
+          otherColor: 'black'
+        }
+      })
     }
   }
 
-  getTitle () {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve('My app with async / await!')
-      }, 2000)
-    })
-  }
-
-  async componentDidMount () {
-    const title = await import('components/title')
-
-    this.setState({
-      title: await this.getTitle(),
-      Component: title.default
-    })
+  shouldComponentUpdate (nextProps, nextState) {
+    if (nextState.color.otherColor === this.state.color.otherColor) {
+      return false
+    }
+    return true
   }
 
   render () {
+    console.log('render')
     return (
       <div>
-        <this.state.Component>{this.state.title}</this.state.Component>
+        <span>Color name: {this.state.color.otherColor}</span>
+        <br />
+        <span>Color name: {this.state.color.moreOtherColor}</span>
+        <br />
+        <button onClick={this.handleClick}>
+          Change color to black
+        </button>
       </div>
     )
   }
