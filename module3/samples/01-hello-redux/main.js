@@ -11,10 +11,6 @@ const counter = (state = 0, action) => {
 const { createStore } = Redux
 const store = createStore(counter)
 
-store.subscribe(() => {
-  $counter.textContent = store.getState()
-})
-
 const $counter = document.querySelector('[data-js="counter"]')
 const $decrement = document.querySelector('[data-js="decrement"]')
 const $increment = document.querySelector('[data-js="increment"]')
@@ -29,3 +25,10 @@ function decrement () {
 function increment () {
   store.dispatch({ type: 'INCREMENT' })
 }
+
+function render () {
+  $counter.textContent = store.getState()
+}
+
+store.subscribe(render)
+render()
