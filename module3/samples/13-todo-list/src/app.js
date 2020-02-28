@@ -4,14 +4,20 @@ import React from 'react'
 import Form from 'components/form'
 import TodosList from 'components/todos-list'
 import Filter from 'components/filter'
+import SearchCep from 'components/search-cep'
 
-import './css/style.css'
+import 'milligram'
 
 const App = () => (
-  <div>
-    <Form />
-    <TodosList />
-    <Filter />
+  <div style={{ display: 'flex', justifyContent: 'space-around', padding: '30px' }}>
+    <div>
+      <Form />
+      <TodosList />
+      <Filter />
+    </div>
+    <div>
+      <SearchCep />
+    </div>
   </div>
 )
 

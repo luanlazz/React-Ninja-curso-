@@ -20,7 +20,7 @@ const Filter = ({ activeFilter, handleFilter }) => (
 const filterItens = [
   { label: 'Todos', action: actions.SHOW_ALL },
   { label: 'Finalizados', action: actions.SHOW_COMPLETED },
-  { label: 'fazer', action: actions.SHOW_ACTIVE }
+  { label: 'Fazer', action: actions.SHOW_ACTIVE }
 ]
 
 const mapStateToProps = state => ({

@@ -8,14 +8,14 @@ export const initialState = []
 const todos = createReducer(initialState, {
   [ADD_TODO]: (state, action) => state.concat({ id: action.payload.id, text: action.payload.text, completed: false }),
   [TOGGLE_TODO]: (state, action) => state.map((todo) => {
-      if (todo.id === action.payload.id) {
-        return {
-          ...todo,
-          completed: !todo.completed
-        }
+    if (todo.id === action.payload.id) {
+      return {
+        ...todo,
+        completed: !todo.completed
       }
-      return todo
-    })
+    }
+    return todo
+  })
 })
 
 export default todos
