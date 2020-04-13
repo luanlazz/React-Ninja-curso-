@@ -1,25 +1,38 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
 import styled from 'styled-components'
 import {
   Card,
-  CardActionArea as MaterialCardActionArea,
-  Divider as MaterialDivider,
   Grid,
+  LinearProgress,
   Typography
 } from '@material-ui/core'
-import { H3, H4, HeaderContent } from 'ui'
+import {
+  CardLink,
+  Content,
+  Divider,
+  H3,
+  H4,
+  HeaderContent,
+  PizzasGrid
+} from 'ui'
 import { singularOrPlural } from 'utils'
-import { AuthContext } from 'contexts/auth'
-import pizzaSizes from 'fake-data/pizzas-sizes'
-
+import { useAuth, useCollection } from 'hooks'
 import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
 
 const ChoosePizzaSize = () => {
-  const { userInfo } = useContext(AuthContext)
+  const { userInfo } = useAuth()
+  const pizzasSizes = useCollection('pizzasSizes')
+
+  if (!pizzasSizes) {
+    return <LinearProgress color='secondary' />
+  }
+
+  if (pizzasSizes.length === 0) {
+    return 'Não há dados.'
+  }
 
   return (
-    <>
+    <Content>
       <HeaderContent>
         <H3>
           O que vai ser hoje {userInfo.user.firstName}?
@@ -31,12 +44,14 @@ const ChoosePizzaSize = () => {
       </HeaderContent>
 
       <PizzasGrid>
-        {pizzaSizes.map((pizza) => (
+        {pizzasSizes.map((pizza) => (
           <Grid item key={pizza.id} xs>
             <Card>
-              <CardActionArea to={{
+              <CardLink to={{
                 pathname: CHOOSE_PIZZA_FLAVOURS,
-                state: pizza
+                state: {
+                  pizzaSize: pizza
+                }
               }}>
                 <Pizza>
                   <PizzaText>{pizza.size} cm</PizzaText>
@@ -50,37 +65,19 @@ const ChoosePizzaSize = () => {
                   {pizza.flavours}, {' '}
                   {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
                 </Typography>
-              </CardActionArea>
+              </CardLink>
             </Card>
           </Grid>
         ))}
       </PizzasGrid>
-    </>
+    </Content>
   )
 }
 
-const PizzasGrid = styled(Grid).attrs({
-  container: true,
-  spacing: 2
-})`
-  padding: 20px;
-`
-
-const CardActionArea = styled(MaterialCardActionArea).attrs({
-  component: Link
-})`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  min-width: 250px;
-  padding: 20px 0 20px 0;
-  border-radius: 10%;
-`
-
 const Pizza = styled.div`
   align-items: center;
-  background: #fff;
-  border: 1px solid #ccc;
+  background: ${({ theme }) => theme.palette.common.white};
+  border: 1px solid ${({ theme }) => theme.palette.grey.A100};
   border-radius: 50%;
   display: flex;
   height: 200px;
@@ -91,7 +88,7 @@ const Pizza = styled.div`
 
   &::before,
   &::after {
-    background: #ccc;
+    background: ${({ theme }) => theme.palette.grey.A100};
     content: '';
     position: absolute;
     transform: rotate(45deg)
@@ -111,20 +108,17 @@ const Pizza = styled.div`
 const PizzaText = styled(Typography).attrs({
   variant: 'h5'
 })`
-  align-items: center;
-  background: #fff;
-  border-radius: 50%;
-  display: flex;
-  height: 80px;
-  justify-content: center;
-  position: relative;
-  width: 80px;
-  z-index: 1;
-`
-
-const Divider = styled(MaterialDivider)`
-  margin: 20px 0;
-  width: 100%;
+  && {
+    align-items: center;
+    background: ${({ theme }) => theme.palette.common.white};
+    border-radius: 50%;
+    display: flex;
+    height: 80px;
+    justify-content: center;
+    position: relative;
+    width: 80px;
+    z-index: 1;
+  }
 `
 
 export default ChoosePizzaSize
